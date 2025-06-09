@@ -47,6 +47,16 @@ def exibir_tabela_treino(grupos_musculares, tabela):
     print(50 * '-')
     print()
 
+def treino_por_semana(tabela_treino):
+    semanas = [(1,7), (8,14), (15,21), (22,28), (29,30)]
+    for idx, (inicio, fim) in enumerate(semanas, 1):
+        soma = 0
+        for dia in range(inicio, fim+1):
+            for linha in tabela_treino:
+                valor = linha[dia-1]
+                if valor != '--':
+                    soma += valor
+        print(f"Semana {idx}: {soma} minutos de treino")
 
 
 
@@ -162,12 +172,13 @@ while True:
     print(f'{'[1] para visializar seu treino':^50}')
     print(f'{'[2] para sugestões de exercícios (por dia)':^50}')
     print(f'{'[3] visualizar o treino mais longo':^50}')
-    print(f'{'[4] para encerrar programa':^50}')
+    print(f'{'[4] ver total de treino por semana':^50}')
+    print(f'{'[5] para encerrar programa':^50}')
     print()
     resposta = int(input('Digite a opção desejada: '))
     print()
 
-    while resposta < 1 or resposta > 4:  
+    while resposta < 1 or resposta > 5:  
         print('Opção inválida! Digite novamente.')
         resposta = int(input('Digite a opção desejada: '))
         print()
@@ -228,6 +239,14 @@ while True:
         print()
 
     elif resposta == 4:
+        print(f'{"Total de treino por semana":^50}')
+        print()
+        treino_por_semana(tabela_treino)
+        print()
+        print(50 * '-')
+        print()
+
+    elif resposta == 5:
         print('Encerrando o programa...')
         sleep(2)
         print('Programa encerrado com sucesso!')

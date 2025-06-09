@@ -44,16 +44,19 @@ for i, treino in enumerate(tiposTreino, 1):
 
 treino_semanal = []
 for dia in ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"]:
-    while True:
-        try:
-            escolha = int(input(f"{dia}-feira (1 a 10): "))
+    escolha_valida = False
+    while not escolha_valida:
+        entrada = input(f"{dia}-feira (1 a 10): ")
+        if entrada.isdigit():
+            escolha = int(entrada)
             if 1 <= escolha <= 10:
-                treino_semanal.append(escolha - 1)  # Salva o índice do treino
-                break
+                treino_semanal.append(escolha - 1)
+                escolha_valida = True
             else:
                 print("Escolha um número entre 1 e 10.")
-        except ValueError:
-            print("Digite um número válido.")
+        else:
+            print("Digite apenas números.")
+
 
 # Mostrar treino semanal com os tempos
 print("\nTreino da semana:")

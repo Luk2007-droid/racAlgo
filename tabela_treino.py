@@ -19,6 +19,37 @@ def grupos_dia(grupos_treinados, dias):
 
     return grupos_dia_dict
 
+def gerar_tabela_treino(grupos_musculares, treino):
+    tempos = [10, 15, 20, 25]
+    tabela = []
+    for grupo in grupos_musculares:
+        linha = []
+        for dia in range(1, 31):
+            if dia in treino and grupo in treino[dia]:
+                tempo = choice(tempos)
+                linha.append(tempo)
+            else:
+                linha.append('--')
+        tabela.append(linha)
+    return tabela
+
+def exibir_tabela_treino(grupos_musculares, tabela):
+    print(f'{"Grupo/Dia":^15}', end='')
+    for dia in range(1, 31):
+        print(f'{dia:^6}', end='')
+    print()
+    for i, grupo in enumerate(grupos_musculares):
+        print(f'{grupo:^15}', end='')
+        for tempo in tabela[i]:
+            print(f'{str(tempo):^6}', end='')
+        print()
+    print()
+    print(50 * '-')
+    print()
+
+
+
+
 exercicios_por_grupo = {
     'Peitoral': [
         'Supino reto com barra',
@@ -124,6 +155,7 @@ print()
 
 dias = dias_treino(quant_treinos)
 treino = grupos_dia(grupos_treinados, dias)
+tabela_treino = gerar_tabela_treino(grupos_musculares, treino)
 
 while True:
     print(f'{'O que deseja fazer agora?':^50}')
@@ -135,37 +167,17 @@ while True:
     resposta = int(input('Digite a opção desejada: '))
     print()
 
-    while resposta < 1 or resposta > 3:
+    while resposta < 1 or resposta > 4:  
         print('Opção inválida! Digite novamente.')
         resposta = int(input('Digite a opção desejada: '))
         print()
     
     if resposta == 1:
-
         print(f'{"Visualizando seu treino...":^50}')
-        print(f'{"Informe quanto tempo quer fazer de treino sempre que preciso":^50}')
         print()
-
         sleep(2)
+        exibir_tabela_treino(grupos_musculares, tabela_treino)
 
-        print(f'{"Grupo/Dia":^15}', end='')
-        for dia in range(1, 31): 
-            print(f'{dia:^6}', end='')
-        print()
-
-        for grupo in grupos_musculares:
-            print(f'{grupo:^15}', end='')
-            for dia in range(1, 31):
-                if dia in treino and grupo in treino[dia]:
-                    print(f'{choice():^6}', end='')
-                else:
-                    print(f'{"--":^6}', end='')
-            print()
-        
-        print()
-        print(50 * '-')
-        print()
-            
     elif resposta == 2:
         qualDia = int(input('Digite o dia que deseja ver os exercícios: '))
 
@@ -193,7 +205,27 @@ while True:
         print()
         sleep(2)
 
+        maior_tempo = 0
+        dia_mais_longo = None
 
+        for dia in range(1, 31):
+            soma = 0
+            for linha in tabela_treino:
+                valor = linha[dia-1]
+                if valor != '--':
+                    soma += valor
+            if soma > maior_tempo:
+                maior_tempo = soma
+                dia_mais_longo = dia
+
+        if dia_mais_longo is not None:
+            print(f'O dia com o treino mais longo foi o dia {dia_mais_longo} com {maior_tempo} minutos de treino.')
+        else:
+            print('Nenhum treino registrado nos dias do mês.')
+
+        print()
+        print(50 * '-')
+        print()
 
     elif resposta == 4:
         print('Encerrando o programa...')
